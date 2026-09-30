@@ -12,7 +12,16 @@ public class Role {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String name; // ROLE_USER, ROLE_ADMIN
+    private String name; // ROLE_USER, ROLE_ADMIN, ROLE_MANAGER
+
+    // 1. Constructor sin argumentos (exigido por JPA)
+    public Role() {
+    }
+
+    // 2. Constructor con el parámetro String (soluciona el error)
+    public Role(String name) {
+        this.name = name;
+    }
 
     public Long getId() {
         return id;
