@@ -303,35 +303,4 @@ Algoritmo de hash de contraseñas:
 
 ---
 
-## 🔗 Enlaces Útiles
-
-- [Spring Boot Documentation](https://spring.io/projects/spring-boot)
-- [Spring Security Reference](https://docs.spring.io/spring-security/reference/)
-- [JPA Documentation](https://spring.io/projects/spring-data-jpa)
-- [Lombok Project](https://projectlombok.org/)
-- [Postman](https://www.postman.com/)
-
----
-
-## 📄 Licencia
-
-Este proyecto es de uso educativo como parte del curso de Desarrollo de Aplicaciones Web.
-
----
-
-## 👨‍💻 Autor
-
-**Ymerino Dev** - [GitHub](https://github.com/ymerino-dev)
-
----
-
-## 📌 Notas Adicionales
-
-- **CSRF deshabilitado** → Aceptable para APIs REST, no para aplicaciones con sesiones de formulario
-- **HTTP Basic** → Las credenciales viajan en cada petición (codificadas en Base64). En producción se recomienda **JWT** u **OAuth2**
-- **Contraseñas en código** → Las contraseñas iniciales están en `DataLoader.java`. En producción deberían usar variables de entorno
-- **Sin tests de seguridad** → Solo existe un test de contexto (`contextLoads`), no hay tests de integración para verificar los roles
-
----
-
 **Última actualización:** Septiembre 2026
