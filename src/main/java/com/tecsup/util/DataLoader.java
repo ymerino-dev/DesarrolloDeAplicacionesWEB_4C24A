@@ -20,40 +20,37 @@ public class DataLoader {
                                PasswordEncoder encoder) {
         return args -> {
 
-            // 🔹 Crear roles si no existen
             Role roleUser = roleRepo.findByName("ROLE_USER")
-                    .orElseGet(() -> {
-                        Role r = new Role();
-                        r.setName("ROLE_USER");
-                        return roleRepo.save(r);
-                    });
+                    .orElseGet(() -> roleRepo.save(new Role("ROLE_USER")));
 
             Role roleAdmin = roleRepo.findByName("ROLE_ADMIN")
-                    .orElseGet(() -> {
-                        Role r = new Role();
-                        r.setName("ROLE_ADMIN");
-                        return roleRepo.save(r);
-                    });
+                    .orElseGet(() -> roleRepo.save(new Role("ROLE_ADMIN")));
 
-            // 🔹 Crear usuario USER
-            if (userRepo.findByUsername("user").isEmpty()) {
-                User user = new User();
-                user.setUsername("user");
-                user.setPassword(encoder.encode("1234")); // 🔐 encriptado
-                user.setRoles(Set.of(roleUser));
-                userRepo.save(user);
-            }
+            Role roleManager = roleRepo.findByName("ROLE_MANAGER")
+                    .orElseGet(() -> roleRepo.save(new Role("ROLE_MANAGER")));
 
-            // 🔹 Crear usuario ADMIN
-            if (userRepo.findByUsername("admin").isEmpty()) {
-                User admin = new User();
-                admin.setUsername("admin");
-                admin.setPassword(encoder.encode("123456")); // 🔐 encriptado
-                admin.setRoles(Set.of(roleAdmin));
-                userRepo.save(admin);
-            }
+            // 2. Crear usuario USER (Nueva contraseña: user2026)
+            User user = userRepo.findByUsername("user").orElse(new User());
+            user.setUsername("user");
+            user.setPassword(encoder.encode("user2026"));
+            user.setRoles(Set.of(roleUser));
+            userRepo.save(user);
 
-            System.out.println("✔ Datos iniciales cargados correctamente");
+            // 3. Crear usuario ADMIN (Nueva contraseña: admin2026)
+            User admin = userRepo.findByUsername("admin").orElse(new User());
+            admin.setUsername("admin");
+            admin.setPassword(encoder.encode("admin2026"));
+            admin.setRoles(Set.of(roleAdmin));
+            userRepo.save(admin);
+
+            // 4. Crear/Actualizar usuario MANAGER (Nueva contraseña: manager2026)
+            User manager = userRepo.findByUsername("manager").orElse(new User());
+            manager.setUsername("manager");
+            manager.setPassword(encoder.encode("manager2026"));
+            manager.setRoles(Set.of(roleManager));
+            userRepo.save(manager);
+
+            System.out.println("✔ Datos iniciales cargados correctamente con nuevos roles y contraseñas");
         };
     }
 }
