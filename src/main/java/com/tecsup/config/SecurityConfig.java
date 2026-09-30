@@ -25,19 +25,16 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         http
                 .csrf(AbstractHttpConfigurer::disable)
-
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/public/**").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/api/free").permitAll()                       // Cambio: /public/hello -> /api/free
+                        .requestMatchers("/management/dashboard").hasRole("ADMIN")     // Cambio: /admin/panel -> /management/dashboard
+                        .requestMatchers("/client/home").hasAnyRole("USER", "ADMIN")   // Cambio: /user/dashboard -> /client/home
+                        .requestMatchers("/manager/reportes").hasRole("MANAGER")       // Nueva ruta para ROLE_MANAGER
                         .anyRequest().authenticated()
                 )
-
                 .userDetailsService(userDetailsService)
-
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();
@@ -51,7 +48,6 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(
             AuthenticationConfiguration config) throws Exception {
-
         return config.getAuthenticationManager();
     }
 }
